@@ -1,4 +1,6 @@
 site_name: Open-Circuit Nomad — Hardware Engineering Docs
+docs_dir: .
+
 theme:
   name: material
   palette:
