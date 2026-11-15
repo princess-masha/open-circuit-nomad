@@ -6,22 +6,22 @@ The board is divided into an **AC Mains Primary Zone (230V AC)** and a **Reinfor
 ```mermaid
 flowchart LR
     subgraph Primary ["230V AC Primary Zone (High Voltage)"]
-        AC["230V AC Input<br/>Screw Terminal"] --> FUSE["1A Slow-Blow Fuse<br/>+ 10D471K MOV"]
-        FUSE --> EMI["EMI Filter<br/>X2 Cap + CM Choke"]
+        AC["230V AC Input<br/>5.08mm Screw Terminal"] --> FUSE["1A Slow-Blow Fuse<br/>+ 10D471K MOV"]
+        FUSE --> EMI["Conducted EMI Filter<br/>0.1uF X2 Cap + 10mH CM Choke"]
     end
 
-    EMI ==>|"Reinforced Isolation<br/>(>= 5.0mm Gap + Slot)"| HLK["Hi-Link HLK-PM01<br/>230V AC to 5V DC"]
+    EMI ==>|"Reinforced Isolation<br/>(>= 5.0mm Gap + 1.5mm Slot)"| HLK["Hi-Link HLK-5M05 / PM01<br/>230V AC to 5V DC"]
 
-    subgraph Secondary ["Low-Voltage Secondary Zone (Touch-Safe)"]
-        HLK -->|"5V Rail (600mA)"| LDO["3.3V LDO Regulator<br/>(AP2112K / AMS1117)"]
-        HLK -->|"5V Power"| LS["5V Level Shifter<br/>(74AHCT1G125)"]
+    subgraph Secondary ["Low-Voltage Secondary Zone (3.3V / 5V Safe)"]
+        HLK -->|"5V Rail"| LDO["AP2112K-3.3 LDO<br/>(5V to 3.3V)"]
+        HLK -->|"5V Power"| LS["74AHCT1G125<br/>5V Level Shifter"]
         
-        LDO -->|"3.3V Rail"| MCU["ESP32-C3 / S3<br/>Controller Module"]
+        LDO -->|"3.3V Rail"| MCU["ESP32-C3-MINI-1<br/>Wi-Fi Microcontroller"]
         
-        MCU <--|"GPIO4"| MODE["J_MODE Jumper<br/>(Stair vs Desk)"]
+        MODE["J_MODE Jumper<br/>(Stair vs Desk)"] -->|"GPIO4"| MCU
         MCU <-->|"I2C (GPIO8/9)"| SENS["J_I2C (Qwiic)<br/>BH1750 Lux + SHT40 Temp"]
-        MCU <--|"GPIO5 + RC Filter"| PIR["J_PIR (3-Pin JST)<br/>AM312 / mmWave Motion"]
-        MCU <--|"GPIO6 + RC Filter"| BTN["J_BTN (2-Pin JST)<br/>Study Desk Button"]
+        PIR["J_PIR (3-Pin JST)<br/>AM312 / mmWave Motion"] -->|"GPIO5 + RC Filter"| MCU
+        BTN["J_BTN (2-Pin JST)<br/>Study Desk Button"] -->|"GPIO6 + RC Filter"| MCU
         MCU -->|"GPIO7"| BZR["Piezo Buzzer<br/>(NPN Driver)"]
         MCU -->|"GPIO10 (3.3V)"| LS
         LS -->|"5V Data + 330R"| LED["J_LED (3-Pin JST)<br/>WS2812B LED Strip"]
@@ -30,6 +30,7 @@ flowchart LR
     style Primary fill:#ffe6e6,stroke:#cc0000,stroke-width:2px
     style Secondary fill:#e6f3ff,stroke:#0066cc,stroke-width:2px
 ```
+
 
 ## 2. Power Budget Breakdown
 
