@@ -580,22 +580,22 @@
 <p>The board is divided into an <strong>AC Mains Primary Zone (230V AC)</strong> and a <strong>Reinforced-Isolated Secondary Zone (5V / 3.3V DC)</strong> separated by a &gt;= 5.0 mm creepage barrier and a 1.5 mm milled PCB slot.</p>
 <pre class="mermaid"><code>flowchart LR
     subgraph Primary ["230V AC Primary Zone (High Voltage)"]
-        AC["230V AC Input&lt;br/&gt;Screw Terminal"] --&gt; FUSE["1A Slow-Blow Fuse&lt;br/&gt;+ 10D471K MOV"]
-        FUSE --&gt; EMI["EMI Filter&lt;br/&gt;X2 Cap + CM Choke"]
+        AC["230V AC Input&lt;br/&gt;5.08mm Screw Terminal"] --&gt; FUSE["1A Slow-Blow Fuse&lt;br/&gt;+ 10D471K MOV"]
+        FUSE --&gt; EMI["Conducted EMI Filter&lt;br/&gt;0.1uF X2 Cap + 10mH CM Choke"]
     end
 
-    EMI ==&gt;|"Reinforced Isolation&lt;br/&gt;(&gt;= 5.0mm Gap + Slot)"| HLK["Hi-Link HLK-PM01&lt;br/&gt;230V AC to 5V DC"]
+    EMI ==&gt;|"Reinforced Isolation&lt;br/&gt;(&gt;= 5.0mm Gap + 1.5mm Slot)"| HLK["Hi-Link HLK-5M05 / PM01&lt;br/&gt;230V AC to 5V DC"]
 
-    subgraph Secondary ["Low-Voltage Secondary Zone (Touch-Safe)"]
-        HLK --&gt;|"5V Rail (600mA)"| LDO["3.3V LDO Regulator&lt;br/&gt;(AP2112K / AMS1117)"]
-        HLK --&gt;|"5V Power"| LS["5V Level Shifter&lt;br/&gt;(74AHCT1G125)"]
+    subgraph Secondary ["Low-Voltage Secondary Zone (3.3V / 5V Safe)"]
+        HLK --&gt;|"5V Rail"| LDO["AP2112K-3.3 LDO&lt;br/&gt;(5V to 3.3V)"]
+        HLK --&gt;|"5V Power"| LS["74AHCT1G125&lt;br/&gt;5V Level Shifter"]
 
-        LDO --&gt;|"3.3V Rail"| MCU["ESP32-C3 / S3&lt;br/&gt;Controller Module"]
+        LDO --&gt;|"3.3V Rail"| MCU["ESP32-C3-MINI-1&lt;br/&gt;Wi-Fi Microcontroller"]
 
-        MCU &lt;--|"GPIO4"| MODE["J_MODE Jumper&lt;br/&gt;(Stair vs Desk)"]
+        MODE["J_MODE Jumper&lt;br/&gt;(Stair vs Desk)"] --&gt;|"GPIO4"| MCU
         MCU &lt;--&gt;|"I2C (GPIO8/9)"| SENS["J_I2C (Qwiic)&lt;br/&gt;BH1750 Lux + SHT40 Temp"]
-        MCU &lt;--|"GPIO5 + RC Filter"| PIR["J_PIR (3-Pin JST)&lt;br/&gt;AM312 / mmWave Motion"]
-        MCU &lt;--|"GPIO6 + RC Filter"| BTN["J_BTN (2-Pin JST)&lt;br/&gt;Study Desk Button"]
+        PIR["J_PIR (3-Pin JST)&lt;br/&gt;AM312 / mmWave Motion"] --&gt;|"GPIO5 + RC Filter"| MCU
+        BTN["J_BTN (2-Pin JST)&lt;br/&gt;Study Desk Button"] --&gt;|"GPIO6 + RC Filter"| MCU
         MCU --&gt;|"GPIO7"| BZR["Piezo Buzzer&lt;br/&gt;(NPN Driver)"]
         MCU --&gt;|"GPIO10 (3.3V)"| LS
         LS --&gt;|"5V Data + 330R"| LED["J_LED (3-Pin JST)&lt;br/&gt;WS2812B LED Strip"]
