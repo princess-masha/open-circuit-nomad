@@ -1,4 +1,5 @@
 site_name: Open-Circuit Nomad — Hardware Engineering Docs
+site_url: https://princess-masha.github.io/open-circuit-nomad/
 docs_dir: .
 site_dir: ../site
 theme:
