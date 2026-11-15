@@ -39,5 +39,14 @@ fp-info-cache
 # Local git-based history (KiCad 9.0+)
 .history
 
+# MkDocs static site build folder
+site/
+
+# Python / Firmware build artifacts
+__pycache__/
+*.py[cod]
+.pio/
+build/
+
 # Local project settings
 *.kicad_prl
