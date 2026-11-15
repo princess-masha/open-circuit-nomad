@@ -11,3 +11,12 @@ Wandering freely across the electrical spectrum—building everything from smart
 | :--- | :--- | :--- | :--- |
 | **`bunk-and-desk-node`** | Unified 230V-isolated ESP32 controller for bunk-bed stair night lighting and study desk automation. | Schematic Capture | [Requirements](bunk-and-desk-node/docs/requirements.md) · [Architecture](bunk-and-desk-node/docs/architecture.md) · [Safety & EMC](bunk-and-desk-node/docs/safety-and-emc.md) |
 
+
+## License
+
+This repository uses a dual-licensing model to cover both hardware designs and software/documentation cleanly:
+
+* **Hardware (`hardware/` KiCad schematics, PCB layouts, & `enclosure/` 3D models):** Licensed under the [CERN Open Hardware Licence Version 2 - Permissive (CERN-OHL-P-2.0)](LICENSE-HARDWARE).
+* **Software & Documentation (`firmware/`, `docs/`, & scripts):** Licensed under the [MIT License](LICENSE).
+
+
