@@ -22,7 +22,7 @@ jobs:
       - name: Install Zensical
         run: pip install --upgrade zensical
       - name: Build Documentation Site
-        run: zensical build -f docs-config/mkdocs.yml
+        run: zensical build -f mkdocs.yml
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
