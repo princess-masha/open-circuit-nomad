@@ -4,7 +4,7 @@ docs_dir: build-docs
 site_dir: site
 
 theme:
-  name: modern
+  name: material
   palette:
     primary: indigo
     accent: amber
