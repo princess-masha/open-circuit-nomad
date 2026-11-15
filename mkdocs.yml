@@ -1,7 +1,13 @@
 site_name: Open-Circuit Nomad — Hardware Engineering Docs
 site_url: https://github.io
-docs_dir: docs
+docs_dir: build-docs
 site_dir: site
+
+theme:
+  name: modern
+  palette:
+    primary: indigo
+    accent: amber
 
 markdown_extensions:
   - tables
