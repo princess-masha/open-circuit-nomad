@@ -32,6 +32,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs-config/site
+          publish_dir: ./site
           keep_files: false
           enable_jekyll: false
