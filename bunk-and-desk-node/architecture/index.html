@@ -1,0 +1,796 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://princess-masha.github.io/open-circuit-nomad/bunk-and-desk-node/architecture/">
+      
+      
+      
+        <link rel="prev" href="../requirements/">
+      
+      
+        <link rel="next" href="../safety-and-emc/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="zensical-0.1.1">
+    
+    
+      
+        <title>System Architecture - Open-Circuit Nomad — Hardware Engineering Docs</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="../../assets/stylesheets/modern/main.ebb7f775.min.css">
+      
+        
+          
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/modern/palette.b60ce83d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,500,500i,700,700i%7CJetBrains+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_scope.pathname.endsWith("/")||(__md_scope=new URL(__md_scope.pathname+"/",location)),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,_=__md_scope)=>JSON.parse(t.getItem(_.pathname+"."+e)),__md_set=(e,t,_=localStorage,a=__md_scope)=>{try{_.setItem(a.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer" aria-hidden="true"></label>
+    <div data-md-component="skip">
+      <a href="#__skip" class="md-skip">
+        Skip to content
+      </a>
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Open-Circuit Nomad — Hardware Engineering Docs" class="md-header__button md-logo" aria-label="Open-Circuit Nomad — Hardware Engineering Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 5v16M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+      <span class="md-visually-hidden">Navigation</span>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Open-Circuit Nomad — Hardware Engineering Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              System Architecture
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="none" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+          <span class="md-visually-hidden">Search</span>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Search">
+  <button type="button" class="md-search__button">
+    Search
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Open-Circuit Nomad — Hardware Engineering Docs" class="md-nav__button md-logo" aria-label="Open-Circuit Nomad — Hardware Engineering Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 5v16M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
+
+    </a>
+    Open-Circuit Nomad — Hardware Engineering Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Home
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Bunk & Desk Node
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+            <label class="md-nav__title" for="__nav_2">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Bunk & Desk Node
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../requirements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Requirements (Req-as-Code)
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  System Architecture
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="././" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  System Architecture
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-hardware-block-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1. Hardware Block Diagram
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-power-budget-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2. Power Budget Breakdown
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-dual-mode-operating-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3. Dual-Mode Operating States
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-microcontroller-pin-allocation-table-esp32-c3-mini-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        4. Microcontroller Pin Allocation Table (ESP32-C3-MINI-1)
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../safety-and-emc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  230V Safety & EMC Notes
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../verification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Verification Plan
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  
+                    
+                    
+                    
+                      
+                    
+                    
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
+                    
+                  
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-hardware-block-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1. Hardware Block Diagram
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-power-budget-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2. Power Budget Breakdown
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-dual-mode-operating-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3. Dual-Mode Operating States
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-microcontroller-pin-allocation-table-esp32-c3-mini-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        4. Microcontroller Pin Allocation Table (ESP32-C3-MINI-1)
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                <a id="__skip" tabindex="-1"></a>
+                
+                  
+
+
+<h1 id="system-architecture-step-study-hub">System Architecture: Step &amp; Study Hub</h1>
+<h2 id="1-hardware-block-diagram">1. Hardware Block Diagram</h2>
+<p>The board is divided into an <strong>AC Mains Primary Zone (230V AC)</strong> and a <strong>Reinforced-Isolated Secondary Zone (5V / 3.3V DC)</strong> separated by a &gt;= 5.0 mm creepage barrier and a 1.5 mm milled PCB slot.</p>
+<pre class="mermaid"><code>flowchart LR
+    subgraph Primary ["230V AC Primary Zone (High Voltage)"]
+        AC["230V AC Input&lt;br/&gt;Screw Terminal"] --&gt; FUSE["1A Slow-Blow Fuse&lt;br/&gt;+ 10D471K MOV"]
+        FUSE --&gt; EMI["EMI Filter&lt;br/&gt;X2 Cap + CM Choke"]
+    end
+
+    EMI ==&gt;|"Reinforced Isolation&lt;br/&gt;(&gt;= 5.0mm Gap + Slot)"| HLK["Hi-Link HLK-PM01&lt;br/&gt;230V AC to 5V DC"]
+
+    subgraph Secondary ["Low-Voltage Secondary Zone (Touch-Safe)"]
+        HLK --&gt;|"5V Rail (600mA)"| LDO["3.3V LDO Regulator&lt;br/&gt;(AP2112K / AMS1117)"]
+        HLK --&gt;|"5V Power"| LS["5V Level Shifter&lt;br/&gt;(74AHCT1G125)"]
+
+        LDO --&gt;|"3.3V Rail"| MCU["ESP32-C3 / S3&lt;br/&gt;Controller Module"]
+
+        MCU &lt;--|"GPIO4"| MODE["J_MODE Jumper&lt;br/&gt;(Stair vs Desk)"]
+        MCU &lt;--&gt;|"I2C (GPIO8/9)"| SENS["J_I2C (Qwiic)&lt;br/&gt;BH1750 Lux + SHT40 Temp"]
+        MCU &lt;--|"GPIO5 + RC Filter"| PIR["J_PIR (3-Pin JST)&lt;br/&gt;AM312 / mmWave Motion"]
+        MCU &lt;--|"GPIO6 + RC Filter"| BTN["J_BTN (2-Pin JST)&lt;br/&gt;Study Desk Button"]
+        MCU --&gt;|"GPIO7"| BZR["Piezo Buzzer&lt;br/&gt;(NPN Driver)"]
+        MCU --&gt;|"GPIO10 (3.3V)"| LS
+        LS --&gt;|"5V Data + 330R"| LED["J_LED (3-Pin JST)&lt;br/&gt;WS2812B LED Strip"]
+    end
+
+    style Primary fill:#ffe6e6,stroke:#cc0000,stroke-width:2px
+    style Secondary fill:#e6f3ff,stroke:#0066cc,stroke-width:2px</code></pre>
+<h2 id="2-power-budget-breakdown">2. Power Budget Breakdown</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Rail</th>
+<th style="text-align: left;">Source</th>
+<th style="text-align: left;">Max Available</th>
+<th style="text-align: left;">Typical Load</th>
+<th style="text-align: left;">Consumers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>230V AC</strong></td>
+<td style="text-align: left;">Mains Input</td>
+<td style="text-align: left;">1A (Fused)</td>
+<td style="text-align: left;">~25 mA</td>
+<td style="text-align: left;">Hi-Link HLK-PM01 AC-DC Module</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>5.0V DC</strong></td>
+<td style="text-align: left;">HLK-PM01</td>
+<td style="text-align: left;">600 mA (3W)</td>
+<td style="text-align: left;">~350 mA</td>
+<td style="text-align: left;">WS2812B LEDs (brightness-capped in firmware), 3.3V LDO</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>3.3V DC</strong></td>
+<td style="text-align: left;">3.3V LDO</td>
+<td style="text-align: left;">600 mA</td>
+<td style="text-align: left;">~120 mA</td>
+<td style="text-align: left;">ESP32 Wi-Fi active, PIR/mmWave sensor, I2C sensors</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-dual-mode-operating-states">3. Dual-Mode Operating States</h2>
+<pre class="mermaid"><code>stateDiagram-v2
+    [*] --&gt; Boot: Power On (230V AC)
+    Boot --&gt; CheckMode: Read Mode Jumper / Flash Config
+
+    CheckMode --&gt; BunkStairMode: Mode = STAIR
+    CheckMode --&gt; StudyDeskMode: Mode = DESK
+
+    state BunkStairMode {
+        [*] --&gt; IdleDark
+        IdleDark --&gt; FadeOn: PIR / mmWave Triggered
+        FadeOn --&gt; HoldLight: Soft Warm-White Step Glow
+        HoldLight --&gt; FadeOff: No Motion for 30s
+        FadeOff --&gt; IdleDark
+    }
+
+    state StudyDeskMode {
+        [*] --&gt; AmbientStandby
+        AmbientStandby --&gt; TaskLighting: Button Press / Home Assistant
+        TaskLighting --&gt; BreakReminder: 45-Min Study Timer Chime
+        BreakReminder --&gt; TaskLighting: Button Acknowledge
+    }</code></pre>
+<h2 id="4-microcontroller-pin-allocation-table-esp32-c3-mini-1">4. Microcontroller Pin Allocation Table (ESP32-C3-MINI-1)</h2>
+<p>Locking in pin assignments before schematic capture prevents strapping-pin boot conflicts:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">ESP32-C3 Pin</th>
+<th style="text-align: left;">Net Name</th>
+<th style="text-align: left;">Sheet</th>
+<th style="text-align: left;">Direction</th>
+<th style="text-align: left;">Function &amp; Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>GPIO4</strong></td>
+<td style="text-align: left;"><code>MODE_SEL</code></td>
+<td style="text-align: left;"><code>sheet_mcu_core</code></td>
+<td style="text-align: left;">Input (Pull-up)</td>
+<td style="text-align: left;">Closed to <code>GND</code> = Stair Mode; Open = Desk Mode</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GPIO5</strong></td>
+<td style="text-align: left;"><code>PIR_IN</code></td>
+<td style="text-align: left;"><code>sheet_sensors</code></td>
+<td style="text-align: left;">Input</td>
+<td style="text-align: left;">Motion sensor trigger (<code>1k</code> + <code>100nF</code> low-pass filter)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GPIO6</strong></td>
+<td style="text-align: left;"><code>BTN_IN</code></td>
+<td style="text-align: left;"><code>sheet_sensors</code></td>
+<td style="text-align: left;">Input (Pull-up)</td>
+<td style="text-align: left;">Desk tactile switch (<code>10k</code> + <code>100nF</code> debounce)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GPIO7</strong></td>
+<td style="text-align: left;"><code>BUZZER_PWM</code></td>
+<td style="text-align: left;"><code>sheet_outputs</code></td>
+<td style="text-align: left;">Output</td>
+<td style="text-align: left;">PWM tone output to MMBT2222A buzzer driver</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GPIO8</strong></td>
+<td style="text-align: left;"><code>I2C_SDA</code></td>
+<td style="text-align: left;"><code>sheet_sensors</code></td>
+<td style="text-align: left;">Bidir</td>
+<td style="text-align: left;">I2C Data (<code>4.7k</code> pull-up to <code>+3V3</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GPIO9</strong></td>
+<td style="text-align: left;"><code>I2C_SCL</code></td>
+<td style="text-align: left;"><code>sheet_sensors</code></td>
+<td style="text-align: left;">Output</td>
+<td style="text-align: left;">I2C Clock (<code>4.7k</code> pull-up to <code>+3V3</code>, also Boot strapping pin)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GPIO10</strong></td>
+<td style="text-align: left;"><code>LED_DATA_3V3</code></td>
+<td style="text-align: left;"><code>sheet_outputs</code></td>
+<td style="text-align: left;">Output</td>
+<td style="text-align: left;">Feeds <code>74AHCT1G125</code> buffer -&gt; <code>5V</code> WS2812B data</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>EN / GPIO9</strong></td>
+<td style="text-align: left;"><code>RESET</code> / <code>BOOT</code></td>
+<td style="text-align: left;"><code>sheet_mcu_core</code></td>
+<td style="text-align: left;">Input</td>
+<td style="text-align: left;">On-board tactile buttons + 4-pin UART header for flashing</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog" role="status" aria-atomic="true">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      
+      
+        
+        
+      <script id="__config" type="application/json">{"annotate":null,"base":"../..","features":[],"redirect":null,"search":"../../assets/javascripts/workers/search.719e0d91.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","clipboard.error":"Could not copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.3cb411a8.min.js"></script>
+      
+    
+  </body>
+</html>
