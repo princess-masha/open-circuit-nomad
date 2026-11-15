@@ -1,0 +1,198 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "edcca314-9eef-480a-90aa-b976b340dfd0")
+	(paper "A4")
+	(lib_symbols)
+	(sheet
+		(at 173.99 54.61)
+		(size 33.02 21.59)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "05b26423-d3a4-447e-92bc-473caab5bc38")
+		(property "Sheetname" "Outputs & LEDs"
+			(at 173.99 53.8984 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "sheet_outputs.kicad_sch"
+			(at 173.99 76.7846 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "bunk-and-desk-node"
+				(path "/edcca314-9eef-480a-90aa-b976b340dfd0"
+					(page "4")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 27.94 29.21)
+		(size 40.64 45.72)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "2974a2eb-1e56-4c36-80d1-0db154467c3a")
+		(property "Sheetname" "MCU Core & Mode"
+			(at 27.94 28.4984 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "sheet_mcu_core.kicad_sch"
+			(at 27.94 75.5146 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "bunk-and-desk-node"
+				(path "/edcca314-9eef-480a-90aa-b976b340dfd0"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 99.06 78.74)
+		(size 38.1 10.16)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "8c20d03a-053f-403d-b5dc-ed313a4b2a88")
+		(property "Sheetname" "Power & 230V Isolation"
+			(at 99.06 78.0284 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "sheet_power_hv.kicad_sch"
+			(at 99.06 89.4846 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "bunk-and-desk-node"
+				(path "/edcca314-9eef-480a-90aa-b976b340dfd0"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 177.8 109.22)
+		(size 71.12 30.48)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "d224903b-1e84-4e50-8d2b-b1b9b962394d")
+		(property "Sheetname" "Sensors & UI"
+			(at 177.8 108.5084 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "sheet_sensors.kicad_sch"
+			(at 177.8 140.2846 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "bunk-and-desk-node"
+				(path "/edcca314-9eef-480a-90aa-b976b340dfd0"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

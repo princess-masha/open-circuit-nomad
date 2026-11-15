@@ -21,8 +21,13 @@ flowchart LR
         MCU <-->|"I2C (SDA/SCL)"| SENS["Study Desk Sensors<br/>Temp/Hum/Lux (Qwiic)"]
         MCU <--|"3.3V GPIO"| PIR["Stair Motion Sensor<br/>PIR / mmWave"]
         MCU <--|"3.3V GPIO"| BTN["User Tactile Button<br/>& Piezo Buzzer"]
-        MCU -->|"3.3V Data"| LS
-        LS -->|"5V Data + 5V Power"| LED["WS2812B LED Strip<br/>(Stair / Desk Light)"]
+		MCU <--|"GPIO4"| MODE["J_MODE Jumper<br/>(Stair vs Desk)"]
+        MCU <-->|"I2C (GPIO8/9)"| SENS["J_I2C (Qwiic)<br/>BH1750 Lux + SHT40 Temp"]
+        MCU <--|"GPIO5 + RC Filter"| PIR["J_PIR (3-Pin JST)<br/>AM312 / mmWave Motion"]
+        MCU <--|"GPIO6 + RC Filter"| BTN["J_BTN (2-Pin JST)<br/>Study Desk Button"]
+        MCU -->|"GPIO7"| BZR["Piezo Buzzer<br/>(NPN Driver)"]
+        MCU -->|"GPIO10 (3.3V)"| LS
+        LS -->|"5V Data + 330R"| LED["J_LED (3-Pin JST)<br/>WS2812B LED Strip"]
     end
 
     style Primary fill:#ffe6e6,stroke:#cc0000,stroke-width:2px
@@ -62,3 +67,16 @@ stateDiagram-v2
         BreakReminder --> TaskLighting: Button Acknowledge
     }
 ```
+## 4. Microcontroller Pin Allocation Table (ESP32-C3-MINI-1)
+Locking in pin assignments before schematic capture prevents strapping-pin boot conflicts:
+
+| ESP32-C3 Pin | Net Name | Sheet | Direction | Function & Notes |
+| :--- | :--- | :--- | :--- | :--- |
+| **GPIO4** | `MODE_SEL` | `sheet_mcu_core` | Input (Pull-up) | Closed to `GND` = Stair Mode; Open = Desk Mode |
+| **GPIO5** | `PIR_IN` | `sheet_sensors` | Input | Motion sensor trigger (`1k` + `100nF` low-pass filter) |
+| **GPIO6** | `BTN_IN` | `sheet_sensors` | Input (Pull-up) | Desk tactile switch (`10k` + `100nF` debounce) |
+| **GPIO7** | `BUZZER_PWM` | `sheet_outputs` | Output | PWM tone output to MMBT2222A buzzer driver |
+| **GPIO8** | `I2C_SDA` | `sheet_sensors` | Bidir | I2C Data (`4.7k` pull-up to `+3V3`) |
+| **GPIO9** | `I2C_SCL` | `sheet_sensors` | Output | I2C Clock (`4.7k` pull-up to `+3V3`, also Boot strapping pin) |
+| **GPIO10** | `LED_DATA_3V3` | `sheet_outputs` | Output | Feeds `74AHCT1G125` buffer -> `5V` WS2812B data |
+| **EN / GPIO9** | `RESET` / `BOOT` | `sheet_mcu_core` | Input | On-board tactile buttons + 4-pin UART header for flashing |
