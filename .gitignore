@@ -22,6 +22,9 @@ fp-info-cache
 ~*.lck
 \#auto_saved_files#
 
+# Exported BOM files
+!**/manufacturing/*.csv
+
 # Netlist files (exported from Eeschema)
 *.net
 
