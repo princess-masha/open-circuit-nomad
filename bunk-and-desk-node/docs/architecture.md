@@ -18,10 +18,7 @@ flowchart LR
         
         LDO -->|"3.3V Rail"| MCU["ESP32-C3 / S3<br/>Controller Module"]
         
-        MCU <-->|"I2C (SDA/SCL)"| SENS["Study Desk Sensors<br/>Temp/Hum/Lux (Qwiic)"]
-        MCU <--|"3.3V GPIO"| PIR["Stair Motion Sensor<br/>PIR / mmWave"]
-        MCU <--|"3.3V GPIO"| BTN["User Tactile Button<br/>& Piezo Buzzer"]
-		MCU <--|"GPIO4"| MODE["J_MODE Jumper<br/>(Stair vs Desk)"]
+        MCU <--|"GPIO4"| MODE["J_MODE Jumper<br/>(Stair vs Desk)"]
         MCU <-->|"I2C (GPIO8/9)"| SENS["J_I2C (Qwiic)<br/>BH1750 Lux + SHT40 Temp"]
         MCU <--|"GPIO5 + RC Filter"| PIR["J_PIR (3-Pin JST)<br/>AM312 / mmWave Motion"]
         MCU <--|"GPIO6 + RC Filter"| BTN["J_BTN (2-Pin JST)<br/>Study Desk Button"]
