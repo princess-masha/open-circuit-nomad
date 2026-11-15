@@ -1,0 +1,20 @@
+site_name: Open-Circuit Nomad — Hardware Engineering Docs
+site_url: https://github.io
+docs_dir: docs
+site_dir: site
+
+markdown_extensions:
+  - tables
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+nav:
+  - Home: index.md
+  - Bunk & Desk Node:
+      - Requirements (Req-as-Code): bunk-and-desk-node/requirements.md
+      - System Architecture: bunk-and-desk-node/architecture.md
+      - 230V Safety & EMC Notes: bunk-and-desk-node/safety-and-emc.md
+      - Verification Plan: bunk-and-desk-node/verification.md
