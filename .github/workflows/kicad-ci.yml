@@ -1,0 +1,78 @@
+name: Multi-Project KiCad CI/CD
+
+on:
+  push:
+    paths:
+      - '**/hardware/**'
+      - '.github/workflows/kicad-ci.yml'
+  pull_request:
+    paths:
+      - '**/hardware/**'
+
+jobs:
+  build_all_projects:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/inti-cmnb/kicad10_auto_full:latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # Add any future project folder names to this list
+        project:
+          - bunk-and-desk-node
+          # - smart-balcony-monitor
+          # - industrial-rs485-node
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Verify Project Exists
+        id: check_project
+        run: |
+          if [ -f "${{ matrix.project }}/hardware/${{ matrix.project }}.kicad_pcb" ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run KiCad ERC, DRC & Export Outputs
+        if: steps.check_project.outputs.exists == 'true'
+        run: |
+          PROJ="${{ matrix.project }}"
+          mkdir -p "$PROJ/hardware/manufacturing/gerbers"
+          mkdir -p "$PROJ/enclosure"
+
+          kicad-cli sch erc --exit-code-violations \
+            -o "$PROJ/hardware/manufacturing/erc-report.rpt" \
+            "$PROJ/hardware/$PROJ.kicad_sch"
+
+          kicad-cli pcb drc --exit-code-violations \
+            -o "$PROJ/hardware/manufacturing/drc-report.rpt" \
+            "$PROJ/hardware/$PROJ.kicad_pcb"
+
+          kicad-cli sch export pdf \
+            -o "$PROJ/hardware/manufacturing/$PROJ-schematic.pdf" \
+            "$PROJ/hardware/$PROJ.kicad_sch"
+
+          kicad-cli pcb export gerbers \
+            -o "$PROJ/hardware/manufacturing/gerbers/" \
+            "$PROJ/hardware/$PROJ.kicad_pcb"
+
+          kicad-cli pcb export drill \
+            -o "$PROJ/hardware/manufacturing/gerbers/" \
+            "$PROJ/hardware/$PROJ.kicad_pcb"
+
+          kicad-cli pcb export step \
+            -o "$PROJ/enclosure/$PROJ.step" \
+            "$PROJ/hardware/$PROJ.kicad_pcb"
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        if: steps.check_project.outputs.exists == 'true' && always()
+        with:
+          name: ${{ matrix.project }}-manufacturing-files
+          path: |
+            ${{ matrix.project }}/hardware/manufacturing/
+            ${{ matrix.project }}/enclosure/${{ matrix.project }}.step
